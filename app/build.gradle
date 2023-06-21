@@ -84,4 +84,10 @@ dependencies {
     //Chart
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
+    //Date picker
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc"
+
+    //Icons
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
 }

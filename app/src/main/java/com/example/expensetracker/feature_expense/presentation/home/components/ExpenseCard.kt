@@ -2,12 +2,15 @@ package com.example.expensetracker.feature_expense.presentation.home.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -17,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.example.expensetracker.ui.theme.ExpenseTrackerTheme
-import com.example.expensetracker.ui.theme.Purple500
 
 
 @Composable
@@ -93,23 +95,37 @@ fun ExpenseCard(
                     .padding(10.dp)
                     .padding(start = 10.dp)
             ) {
-                Text(
-                    text = "Total Expenses",
-                    style = MaterialTheme.typography.body2
-                )
-                Row(modifier = Modifier.padding(top = 5.dp)) {
-                    Text(
-                        text = "$",
-                        style = MaterialTheme.typography.h4
-                    )
-                    Text(
-                        text = finalSum.toString(),
-                        style = MaterialTheme.typography.h4
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier) {
+                        Text(
+                            text = "Total Expenses",
+                            style = MaterialTheme.typography.body2
+                        )
+                        Row(modifier = Modifier) {
+                            Text(
+                                text = "$",
+                                style = MaterialTheme.typography.h4
+                            )
+                            Text(
+                                text = finalSum.toString(),
+                                style = MaterialTheme.typography.h4
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Set limit"
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = "**** **** **** 7156",
+                    text = "****  ****  ****  7156",
                     style = MaterialTheme.typography.subtitle1
                 )
             }

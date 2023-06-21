@@ -6,6 +6,6 @@ import java.time.LocalDate
 
 data class HomeState(
     val expenses : Map<ExpenseCategory,List<Expense>> = emptyMap(),
-    val date: Long = LocalDate.now().withDayOfMonth(1).toEpochDay(),
+    val date: LocalDate = LocalDate.now().withDayOfMonth(1),
     val finalSum: Long = 0
-    )
+)

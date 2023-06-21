@@ -41,7 +41,6 @@ fun DefaultPieChart(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                 )
                 this.description.isEnabled = false
-
                 this.isDrawHoleEnabled = true
                 this.legend.isEnabled = false
                 this.setHoleColor(holeColor)
@@ -66,7 +65,7 @@ fun DefaultPieChart(
 private fun updatePieChartWithData(
     chart: PieChart,
     data: Map<ExpenseCategory, List<Expense>>,
-    colorPallette : ArrayList<Int>
+    colorPalette : ArrayList<Int>
 ){
     val entries = ArrayList<PieEntry>()
     for ((category, expenses) in data) {
@@ -74,7 +73,7 @@ private fun updatePieChartWithData(
     }
     val ds = PieDataSet(entries, "")
 
-    ds.colors = colorPallette
+    ds.colors = colorPalette
     ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
     ds.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
     ds.sliceSpace = 2f
