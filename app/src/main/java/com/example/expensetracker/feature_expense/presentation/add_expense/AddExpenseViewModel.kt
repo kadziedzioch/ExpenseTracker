@@ -1,6 +1,7 @@
 package com.example.expensetracker.feature_expense.presentation.add_expense
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,8 +9,8 @@ import com.example.expensetracker.feature_expense.domain.model.Expense
 import com.example.expensetracker.feature_expense.domain.model.InvalidExpenseException
 import com.example.expensetracker.feature_expense.domain.use_case.ExpenseUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -29,13 +30,18 @@ class AddExpenseViewModel @Inject constructor(
     private val _amountState = mutableStateOf(ExpenseTextFieldState())
     val amountState : State<ExpenseTextFieldState> = _amountState
 
-    private val _eventFlow =  MutableSharedFlow<UiEvent>()
-    val eventFlow = _eventFlow.asSharedFlow()
+    private val channel =  Channel<UiEvent>()
+    val eventFlow = channel.receiveAsFlow()
 
-    private val _dateState = mutableStateOf(
-        DateTimeFormatter.ofPattern("dd/MMM/yy").format(LocalDate.now())
-    )
-    val dateState : State<String> = _dateState
+    private val _dateState = mutableStateOf(LocalDate.now())
+    val dateState : State<LocalDate> = _dateState
+
+    val formattedDate = derivedStateOf {
+        DateTimeFormatter
+            .ofPattern("dd/MMM/yy")
+            .format(_dateState.value)
+    }
+
 
     fun onEvent(event: AddExpenseEvent){
         when(event){
@@ -52,24 +58,21 @@ class AddExpenseViewModel @Inject constructor(
             is AddExpenseEvent.SaveExpense -> {
                 viewModelScope.launch {
                     try {
+                        val amount = amountState.value.text
                         expenseUseCases.addExpense(
                             Expense(
-                                amount = amountState.value.text.toLong(),
+                                amount = if(amount.isNotEmpty()) amount.toLong() else 0,
                                 category = dropDownMenuState.value.selectedCategory.name,
                                 description = descriptionState.value.text,
-                                date = LocalDate
-                                    .parse(
-                                        dateState.value,DateTimeFormatter.ofPattern("dd/MMM/yy")
-                                    )
-                                    .toEpochDay()
+                                date = dateState.value.toEpochDay()
                             )
                         )
-                        _eventFlow.emit(UiEvent.SaveExpense)
+                        channel.send(UiEvent.SaveExpense)
                     }
                     catch (e: InvalidExpenseException){
-                        _eventFlow.emit(
+                        channel.send(
                             UiEvent.ShowSnackBar(
-                                e.message ?: "Couldn't save expense"
+                                e.message
                             )
                         )
 
@@ -82,9 +85,7 @@ class AddExpenseViewModel @Inject constructor(
                 )
             }
             is AddExpenseEvent.PickedDate ->{
-                _dateState.value =  DateTimeFormatter
-                    .ofPattern("dd/MMM/yy")
-                    .format(event.date)
+                _dateState.value =  event.date
             }
             is AddExpenseEvent.PickedCategory -> {
                 _dropDownMenuState.value = dropDownMenuState.value.copy(
@@ -93,6 +94,7 @@ class AddExpenseViewModel @Inject constructor(
                 )
 
             }
+
         }
 
     }

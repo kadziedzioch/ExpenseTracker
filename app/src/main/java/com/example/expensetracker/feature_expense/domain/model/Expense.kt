@@ -12,4 +12,4 @@ data class Expense (
     @PrimaryKey val id: Int? = null
 )
 
-class InvalidExpenseException(message: String) : Exception()
+class InvalidExpenseException(override val message: String) : Exception()

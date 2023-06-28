@@ -29,12 +29,9 @@ fun DefaultBottomNavigation(navController: NavController) {
                 onClick = {
                     navController.navigate(item.screen_route) {
                         navController.graph.startDestinationRoute?.let { screen_route ->
-                            popUpTo(screen_route) {
-                                saveState = true
-                            }
+                            popUpTo(screen_route)
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 }
             )

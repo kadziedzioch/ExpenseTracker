@@ -45,9 +45,7 @@ fun AddExpenseScreen(
     val dropDownMenuState = viewModel.dropDownMenuState.value
     val scrollState = rememberScrollState()
     val dateDialogState = rememberMaterialDialogState()
-    var tempPickedDate by remember {
-        mutableStateOf(LocalDate.now())
-    }
+    val formattedDate = viewModel.formattedDate.value
 
 
     LaunchedEffect(key1 = true){
@@ -120,7 +118,7 @@ fun AddExpenseScreen(
                                 }
                             ),
                         label = { Text(text = "When") },
-                        value = dateState,
+                        value = formattedDate,
                         onValueChange = {},
                         maxLines = 1,
                         trailingIcon = {
@@ -175,17 +173,16 @@ fun AddExpenseScreen(
                     dismissOnClickOutside = true
                 ),
                 buttons = {
-                    positiveButton(text = "Ok") {
-                        viewModel.onEvent(AddExpenseEvent.PickedDate(tempPickedDate))
-                    }
+                    positiveButton(text = "Ok")
+                    negativeButton(text = "Cancel")
                 },
                 shape = RoundedCornerShape(15.dp)
             ) {
                 datepicker(
-                    initialDate = tempPickedDate,
-                    title = "Pick a date"
+                    initialDate = dateState,
+                    title = "Pick a date",
                 ) {
-                    tempPickedDate = it
+                    viewModel.onEvent(AddExpenseEvent.PickedDate(it))
                 }
             }
 

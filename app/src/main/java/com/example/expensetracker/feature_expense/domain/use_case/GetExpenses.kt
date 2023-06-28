@@ -10,16 +10,32 @@ class GetExpenses(
     private val repository: ExpenseRepository
 ) {
     operator fun invoke(
-        expenseCategory: ExpenseCategory? = null
+        expenseCategories: List<ExpenseCategory> = emptyList(),
+        searchText: String = ""
     ): Flow<List<Expense>>{
         return repository.getExpenses().map { expenses ->
-            if(expenseCategory != null){
-                expenses.sortedByDescending { it.date}.filter {
-                    it.category == expenseCategory.name
+            if(expenseCategories.isNotEmpty()){
+                if(searchText.isNotEmpty()){
+                    expenses.sortedByDescending { it.date}.filter {
+                        expenseCategories.contains(ExpenseCategory.valueOf(it.category)) &&
+                                it.description.lowercase().contains(searchText.lowercase())
+                    }
+                }
+                else{
+                    expenses.sortedByDescending { it.date}.filter {
+                        expenseCategories.contains(ExpenseCategory.valueOf(it.category))
+                    }
                 }
             }
             else{
-                expenses.sortedByDescending {it.date}
+                if(searchText.isNotEmpty()){
+                    expenses.sortedByDescending {it.date}.filter {
+                        it.description.lowercase().contains(searchText.lowercase())
+                    }
+                }
+                else{
+                    expenses.sortedByDescending {it.date}
+                }
             }
         }
     }

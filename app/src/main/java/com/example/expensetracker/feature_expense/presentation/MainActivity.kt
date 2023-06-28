@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.expensetracker.feature_expense.presentation.add_expense.AddExpenseScreen
+import com.example.expensetracker.feature_expense.presentation.history.HistoryScreen
 import com.example.expensetracker.feature_expense.presentation.home.HomeScreen
 import com.example.expensetracker.feature_expense.presentation.shared.DefaultBottomNavigation
 import com.example.expensetracker.feature_expense.presentation.util.Screen
@@ -37,8 +38,10 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(modifier = Modifier.padding(paddingValues))
                         }
                         composable(Screen.HistoryScreen.screen_route){
-
-
+                            HistoryScreen(
+                                modifier = Modifier.padding(paddingValues),
+                                scaffoldState = scaffoldState
+                            )
                         }
                         composable(Screen.AddExpenseScreen.screen_route){
                             AddExpenseScreen(

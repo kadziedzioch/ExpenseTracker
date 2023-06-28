@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,7 +22,6 @@ import com.example.expensetracker.feature_expense.presentation.home.components.E
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import java.time.LocalDate
 
 @Composable
 fun HomeScreen(
@@ -36,9 +34,6 @@ fun HomeScreen(
     val formattedDate = viewModel.formattedDate.value
     val scrollState = rememberScrollState()
     val dateDialogState = rememberMaterialDialogState()
-    var tempPickedDate by remember {
-        mutableStateOf(LocalDate.now())
-    }
 
     Box(
         modifier = modifier
@@ -115,18 +110,16 @@ fun HomeScreen(
                 dismissOnClickOutside = true
             ),
             buttons = {
-                positiveButton(text = "Ok") {
-                    viewModel.onEvent(HomeEvent.ChangeDate(tempPickedDate))
-                }
+                positiveButton(text = "Ok")
                 negativeButton(text = "Cancel")
             },
             shape = RoundedCornerShape(15.dp)
         ) {
             datepicker(
-                initialDate = tempPickedDate,
+                initialDate = state.date,
                 title = "Pick a date"
             ) {
-                tempPickedDate = it
+                viewModel.onEvent(HomeEvent.ChangeDate(it))
             }
         }
 
