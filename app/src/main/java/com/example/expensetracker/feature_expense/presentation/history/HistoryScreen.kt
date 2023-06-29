@@ -1,8 +1,11 @@
 package com.example.expensetracker.feature_expense.presentation.history
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -14,8 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.expensetracker.feature_expense.domain.util.ExpenseCategory
+import com.example.expensetracker.feature_expense.presentation.history.components.CategoryItem
 import com.example.expensetracker.feature_expense.presentation.history.components.ExpenseItem
+import com.example.expensetracker.feature_expense.presentation.home.HomeEvent
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,7 +36,10 @@ fun HistoryScreen(
 ) {
     val searchText by viewModel.searchText.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
+    val categoryList by viewModel.categoryList.collectAsState()
     val scope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+    val dialogState = rememberMaterialDialogState()
 
     Column(
         modifier = modifier
@@ -36,7 +49,7 @@ fun HistoryScreen(
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { dialogState.show() }) {
                 Text(text = "Category")
             }
             Spacer(modifier = modifier.weight(1f))
@@ -51,6 +64,50 @@ fun HistoryScreen(
                 }
             )
         }
+        if(categoryList.isNotEmpty()){
+            Row(modifier = Modifier
+                .horizontalScroll(scrollState)
+                .fillMaxWidth()
+                .padding(5.dp)
+            ) {
+                for (expenseCategory in categoryList) {
+                    CategoryItem(
+                        category = expenseCategory,
+                        onDeleteCategory = {viewModel.onEvent(HistoryEvent.CategoryClicked(expenseCategory))}
+                    )
+                    Spacer(modifier = Modifier.width(7.dp))
+                }
+            }
+        }
+
+        MaterialDialog(
+            dialogState = dialogState,
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            shape = RoundedCornerShape(15.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(10.dp)
+            ){
+                for (expenseCategory in ExpenseCategory.values()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = categoryList.contains(expenseCategory),
+                            onCheckedChange = {viewModel.onEvent(HistoryEvent.CategoryClicked(expenseCategory))}
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(text = expenseCategory.name)
+                    }
+                }
+            }
+        }
+
         when(val state = uiState){
             is HistoryUiState.SearchResult ->{
                 LazyColumn(modifier = Modifier.padding(10.dp)){
