@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +17,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.expensetracker.feature_expense.presentation.home.components.DefaultPieChart
 import com.example.expensetracker.feature_expense.presentation.home.components.ExpenseCard
+import com.example.expensetracker.feature_expense.presentation.home.components.RecentExpenseItem
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -34,26 +33,24 @@ fun HomeScreen(
     val formattedDate = viewModel.formattedDate.value
     val scrollState = rememberScrollState()
     val dateDialogState = rememberMaterialDialogState()
-
     Box(
         modifier = modifier
-            .fillMaxSize()
             .background(MaterialTheme.colors.onSurface)
-    ){
+            .fillMaxSize()
+    ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(top = topPadding + cardImageSize / 4f)
                 .shadow(10.dp, RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                 .background(MaterialTheme.colors.surface)
                 .align(Alignment.BottomCenter)
+                .fillMaxSize()
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .offset(y = cardImageSize / 4f)
+                    .padding(top = cardImageSize / 4f)
                     .verticalScroll(scrollState)
             ) {
                 Row(
@@ -73,7 +70,7 @@ fun HomeScreen(
                         onClick = {
                             dateDialogState.show()
                         }
-                    ){
+                    ) {
                         Text(text = "Since $formattedDate")
                     }
                 }
@@ -87,12 +84,15 @@ fun HomeScreen(
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onSurface
                 )
+                for (expense in state.recentExpenses) {
+                    RecentExpenseItem(expense = expense)
+                }
             }
         }
         Box(
             modifier = Modifier
                 .fillMaxSize()
-        ){
+        ) {
             ExpenseCard(
                 finalSum = state.finalSum,
                 modifier = Modifier
@@ -124,4 +124,6 @@ fun HomeScreen(
         }
 
     }
+
+
 }

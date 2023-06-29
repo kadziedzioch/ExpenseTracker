@@ -5,19 +5,14 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.expensetracker.feature_expense.domain.model.Expense
 import com.example.expensetracker.feature_expense.domain.use_case.ExpenseUseCases
-import com.example.expensetracker.feature_expense.domain.util.ExpenseCategory
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
-import kotlin.math.exp
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -37,6 +32,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getExpenses(LocalDate.now().withDayOfMonth(1).toEpochDay())
+        getRecentExpenses()
     }
 
     fun onEvent(homeEvent: HomeEvent){
@@ -53,6 +49,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getRecentExpenses(){
+        expenseUseCases.getRecentExpenses()
+            .onEach { expenses ->
+                _state.value = state.value.copy(
+                    recentExpenses = expenses
+                )
+            }.launchIn(viewModelScope)
+    }
     private fun getExpenses(date: Long){
         getExpensesJob?.cancel()
         getExpensesJob = expenseUseCases.getExpensesByDate(date)

@@ -35,7 +35,9 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.HomeScreen.screen_route
                     ){
                         composable(Screen.HomeScreen.screen_route){
-                            HomeScreen(modifier = Modifier.padding(paddingValues))
+                            HomeScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
                         }
                         composable(Screen.HistoryScreen.screen_route){
                             HistoryScreen(

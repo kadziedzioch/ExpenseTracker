@@ -11,6 +11,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import kotlin.math.exp
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -39,7 +40,8 @@ object AppModule {
             addExpense = AddExpense(expenseRepository),
             deleteExpense = DeleteExpense(expenseRepository),
             getExpenses = GetExpenses(expenseRepository),
-            getExpensesByDate = GetExpensesByDate(expenseRepository)
+            getExpensesByDate = GetExpensesByDate(expenseRepository),
+            getRecentExpenses = GetRecentExpenses(expenseRepository)
         )
     }
 
