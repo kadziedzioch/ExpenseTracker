@@ -15,9 +15,9 @@ Mobile app to track expenses written with clean architecture approach.
 # UI 🎨
 
 <p float="left">
-  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/52e499b0-2293-4a3e-a7ef-fcc90eee90b4" width="225" />
-  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/7fed8d55-0451-4ade-a9c6-938711d7f968" width="225" /> 
-  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/ecaf8766-894a-436a-a595-141ce6729c74" width="225" />
+  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/52e499b0-2293-4a3e-a7ef-fcc90eee90b4" width="250" />
+  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/7fed8d55-0451-4ade-a9c6-938711d7f968" width="250" /> 
+  <img src="https://github.com/kadziedzioch/ExpenseTracker/assets/93613725/ecaf8766-894a-436a-a595-141ce6729c74" width="250" />
 </p>
 
 
