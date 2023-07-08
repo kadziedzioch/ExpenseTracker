@@ -181,7 +181,8 @@ fun AddExpenseScreen(
                     positiveButton(text = "Ok")
                     negativeButton(text = "Cancel")
                 },
-                shape = RoundedCornerShape(15.dp)
+                shape = RoundedCornerShape(15.dp),
+                backgroundColor = MaterialTheme.colors.background
             ) {
                 datepicker(
                     initialDate = dateState,
