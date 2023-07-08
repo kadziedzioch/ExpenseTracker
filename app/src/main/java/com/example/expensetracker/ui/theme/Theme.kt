@@ -1,7 +1,6 @@
 package com.example.expensetracker.ui.theme
 
 import android.app.Activity
-import android.hardware.lights.Light
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -55,7 +54,7 @@ fun ExpenseTrackerTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colors.onSurface.toArgb()
+            window.statusBarColor = colors.background.toArgb()
 
             WindowCompat.getInsetsController(window, view)
                 .isAppearanceLightStatusBars = darkTheme

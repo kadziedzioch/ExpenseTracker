@@ -44,7 +44,7 @@ class HistoryViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = HistoryUiState.NothingFound
+            initialValue = HistoryUiState.Loading
         )
 
 

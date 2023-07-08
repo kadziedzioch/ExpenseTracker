@@ -48,7 +48,8 @@ fun ExpenseItem(
         Text(
             text = formattedDate,
             style = MaterialTheme.typography.body2,
-            modifier = Modifier.padding(top = 7.dp)
+            modifier = Modifier.padding(top = 7.dp),
+            color = MaterialTheme.colors.onSurface
         )
         Row(
             modifier = Modifier
@@ -59,25 +60,32 @@ fun ExpenseItem(
         ){
             Icon(
                 imageVector =  ExpenseCategory.valueOf(expense.category).icon,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface
             )
             Spacer(modifier = Modifier.width(20.dp))
             Text(
                 text = "$" + expense.amount.toString(),
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.fillMaxHeight(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = onDeleteClicked) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
             }
         }
         if(expanded){
             Text(
                 text = expense.description,
                 style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                color = MaterialTheme.colors.onSurface
             )
         }
         Divider(

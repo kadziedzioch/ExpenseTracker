@@ -42,20 +42,23 @@ fun RecentExpenseItem(
         ){
             Icon(
                 imageVector =  ExpenseCategory.valueOf(expense.category).icon,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface
             )
             Spacer(modifier = Modifier.width(20.dp))
             Text(
                 text = "$" + expense.amount.toString(),
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.fillMaxHeight(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = formattedDate,
                 style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(top = 7.dp)
+                modifier = Modifier.padding(top = 7.dp),
+                color = MaterialTheme.colors.onSurface
             )
         }
         Divider(

@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -35,7 +36,7 @@ fun HomeScreen(
     val dateDialogState = rememberMaterialDialogState()
     Box(
         modifier = modifier
-            .background(MaterialTheme.colors.onSurface)
+            .background(MaterialTheme.colors.background)
             .fillMaxSize()
     ) {
         Box(
@@ -74,7 +75,20 @@ fun HomeScreen(
                         Text(text = "Since $formattedDate")
                     }
                 }
-                DefaultPieChart(expenses = state.expenses)
+                if(state.expenses.isEmpty()){
+                    Text(
+                        text = "No expenses found in this period :(",
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .fillMaxWidth(),
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                else{
+                    DefaultPieChart(expenses = state.expenses)
+                }
                 Text(
                     text = "Recent Expenses",
                     modifier = Modifier
@@ -84,9 +98,23 @@ fun HomeScreen(
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onSurface
                 )
-                for (expense in state.recentExpenses) {
-                    RecentExpenseItem(expense = expense)
+                if(state.recentExpenses.isEmpty()){
+                    Text(
+                        text = "No recent expenses :(",
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .fillMaxWidth(),
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        textAlign = TextAlign.Center
+                    )
                 }
+                else{
+                    for (expense in state.recentExpenses) {
+                        RecentExpenseItem(expense = expense)
+                    }
+                }
+
             }
         }
         Box(
@@ -107,13 +135,14 @@ fun HomeScreen(
             dialogState = dateDialogState,
             properties = DialogProperties(
                 dismissOnBackPress = true,
-                dismissOnClickOutside = true
+                dismissOnClickOutside = true,
             ),
             buttons = {
                 positiveButton(text = "Ok")
                 negativeButton(text = "Cancel")
             },
-            shape = RoundedCornerShape(15.dp)
+            shape = RoundedCornerShape(15.dp),
+            backgroundColor = MaterialTheme.colors.background
         ) {
             datepicker(
                 initialDate = state.date,

@@ -101,16 +101,19 @@ fun ExpenseCard(
                     Column(modifier = Modifier) {
                         Text(
                             text = "Total Expenses",
-                            style = MaterialTheme.typography.body2
+                            style = MaterialTheme.typography.body2,
+                            color = MaterialTheme.colors.onPrimary
                         )
                         Row(modifier = Modifier) {
                             Text(
                                 text = "$",
-                                style = MaterialTheme.typography.h4
+                                style = MaterialTheme.typography.h4,
+                                color = MaterialTheme.colors.onPrimary
                             )
                             Text(
                                 text = finalSum.toString(),
-                                style = MaterialTheme.typography.h4
+                                style = MaterialTheme.typography.h4,
+                                color = MaterialTheme.colors.onPrimary
                             )
                         }
                     }
@@ -119,14 +122,16 @@ fun ExpenseCard(
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Set limit"
+                            contentDescription = "Set limit",
+                            tint = MaterialTheme.colors.onPrimary
                         )
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "****  ****  ****  7156",
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.onPrimary
                 )
             }
         }

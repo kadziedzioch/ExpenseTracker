@@ -1,7 +1,6 @@
 package com.example.expensetracker.feature_expense.presentation.home
 
 import com.example.expensetracker.feature_expense.domain.model.Expense
-import com.example.expensetracker.feature_expense.domain.use_case.GetRecentExpenses
 import com.example.expensetracker.feature_expense.domain.util.ExpenseCategory
 import java.time.LocalDate
 

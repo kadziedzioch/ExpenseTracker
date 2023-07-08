@@ -90,4 +90,10 @@ dependencies {
     //Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
+    //state with lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
+    //data store
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
 }

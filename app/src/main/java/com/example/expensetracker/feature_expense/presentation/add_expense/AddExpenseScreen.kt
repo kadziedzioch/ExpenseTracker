@@ -23,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.expensetracker.feature_expense.domain.util.ExpenseCategory
 import com.example.expensetracker.feature_expense.presentation.add_expense.components.DropDownMenu
-import com.example.expensetracker.feature_expense.presentation.home.HomeEvent
 import com.example.expensetracker.feature_expense.presentation.util.Screen
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
@@ -65,7 +64,7 @@ fun AddExpenseScreen(
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.onSurface)
+                .background(MaterialTheme.colors.background)
         ) {
 
             Box(
@@ -106,7 +105,10 @@ fun AddExpenseScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         placeholder = {
                             Text(text = "Enter amount...")
-                        }
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = MaterialTheme.colors.onSurface
+                        )
                     )
                     OutlinedTextField(
                         modifier = Modifier
@@ -129,7 +131,7 @@ fun AddExpenseScreen(
                         },
                         enabled = false,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            disabledTextColor = LocalContentColor.current.copy(LocalContentAlpha.current),
+                            disabledTextColor = MaterialTheme.colors.onSurface,
                             disabledLabelColor =  MaterialTheme.colors.onSurface.copy(ContentAlpha.medium)
                         )
                     )
@@ -145,7 +147,10 @@ fun AddExpenseScreen(
                         maxLines = 7,
                         placeholder = {
                             Text(text = "Enter description...")
-                        }
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = MaterialTheme.colors.onSurface
+                        )
                     )
 
                     Button(onClick = { viewModel.onEvent(AddExpenseEvent.SaveExpense) }) {
@@ -162,7 +167,7 @@ fun AddExpenseScreen(
                     text =  Screen.AddExpenseScreen.title,
                     style = MaterialTheme.typography.h4,
                     modifier = Modifier.padding(top = topPadding/4f, start = 10.dp),
-                    color = MaterialTheme.colors.surface
+                    color = MaterialTheme.colors.onBackground
                 )
             }
 

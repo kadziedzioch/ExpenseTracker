@@ -50,7 +50,7 @@ fun DropDownMenu(
             },
             enabled = false,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                disabledTextColor = LocalContentColor.current.copy(LocalContentAlpha.current),
+                disabledTextColor =  MaterialTheme.colors.onSurface,
                 disabledLabelColor =  MaterialTheme.colors.onSurface.copy(ContentAlpha.medium)
             ),
             leadingIcon = {
