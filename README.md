@@ -2,7 +2,7 @@
 # Expense Tracker :moneybag:
 Mobile app to track expenses written with clean architecture approach. 
 
-# Build With 🛠
+# Built With 🛠
 - Kotlin
 - Jetpack Compose
 - Coroutines
