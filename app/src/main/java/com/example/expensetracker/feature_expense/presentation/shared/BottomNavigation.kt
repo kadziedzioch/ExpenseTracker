@@ -4,6 +4,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.expensetracker.feature_expense.presentation.util.Screen
 
@@ -29,6 +30,10 @@ fun DefaultBottomNavigation(navController: NavController) {
                 onClick = {
                     navController.navigate(item.screen_route) {
                         launchSingleTop = true
+                        popUpTo(navController.graph.findStartDestination().id){
+                            saveState = true
+                        }
+                        restoreState = true
                     }
                 }
             )
